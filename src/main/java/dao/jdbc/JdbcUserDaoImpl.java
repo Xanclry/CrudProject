@@ -110,6 +110,24 @@ public class JdbcUserDaoImpl implements UserDao {
         return result;
     }
 
+    @Override
+    public User getUserByEmailPassword(String email, String password) {
+        User result = null;
+        try (PreparedStatement statement =
+                     connection.prepareStatement("select * from users where email=? and password=?")) {
+            statement.setString(1, email);
+            statement.setString(2, password);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    result = mapUser(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            log.warn(e.getMessage());
+        }
+        return result;
+    }
+
     @SneakyThrows
     @Override
     public List<User> getAllUsers() {

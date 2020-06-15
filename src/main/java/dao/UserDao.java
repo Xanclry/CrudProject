@@ -17,6 +17,8 @@ public interface UserDao {
 
     User getUser(long id);
 
+    User getUserByEmailPassword(String email, String password);
+
     List<User> getAllUsers();
 
 

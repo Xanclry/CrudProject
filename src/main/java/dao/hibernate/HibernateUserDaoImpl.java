@@ -111,6 +111,23 @@ public class HibernateUserDaoImpl implements UserDao {
     }
 
     @Override
+    public User getUserByEmailPassword(String email, String password) {
+        Session session = DBHelper.getSessionFactory().openSession();
+        try {
+            Query query = session.createQuery("select U from User C WHERE U.email = :email and C.password = :password");
+            query
+                    .setParameter("email", email)
+                    .setParameter("password", password);
+            return (User) query.uniqueResult();
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public List<User> getAllUsers() {
         Session session = DBHelper.getSessionFactory().openSession();
         try {
