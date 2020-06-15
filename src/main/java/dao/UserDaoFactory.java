@@ -2,8 +2,10 @@ package dao;
 
 import dao.hibernate.HibernateUserDaoImpl;
 import dao.jdbc.JdbcUserDaoImpl;
+import lombok.extern.slf4j.Slf4j;
 import util.DBHelper;
 
+@Slf4j
 public class UserDaoFactory {
 
     private UserDaoFactory() {
@@ -13,9 +15,15 @@ public class UserDaoFactory {
         String daoImpl = DBHelper.getDaoImpl();
         UserDao dao;
         switch (daoImpl) {
-            case "jdbc": dao = new JdbcUserDaoImpl(); break;
+            case "jdbc": {
+                dao = new JdbcUserDaoImpl();
+                log.info("Using JDBC user dao implementation");
+            } break;
             default:
-            case "hibernate": dao = new HibernateUserDaoImpl();
+            case "hibernate": {
+                dao = new HibernateUserDaoImpl();
+                log.info("Using HIBERNATE user dao implementation");
+            }
         }
         return dao;
     }

@@ -15,11 +15,29 @@ import java.util.List;
 public class HibernateUserDaoImpl implements UserDao {
 
     @Override
-    public void createUser(User user) {
+    public boolean createUser(User user) {
         Session session = DBHelper.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         try {
             session.save(user);
+            transaction.commit();
+            log.debug("Saved: " + user.getEmail());
+            return true;
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+            transaction.rollback();
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void updateUser(User user) {
+        Session session = DBHelper.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.update(user);
             transaction.commit();
             log.debug("Saved: " + user.getEmail());
         } catch (Exception e) {
@@ -28,11 +46,6 @@ public class HibernateUserDaoImpl implements UserDao {
         } finally {
             session.close();
         }
-    }
-
-    @Override
-    public void updateUser(User user) {
-        createUser(user);
     }
 
     @Override
@@ -59,6 +72,22 @@ public class HibernateUserDaoImpl implements UserDao {
         try {
             User user = (User) session.load(User.class, id);
             session.delete(user);
+            transaction.commit();
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        Session session = DBHelper.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            Query query = session.createQuery("delete from User");
+            query.executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             log.warn(e.getMessage());

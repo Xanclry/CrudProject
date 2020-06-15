@@ -1,11 +1,12 @@
-package dao;
+package service;
 
 import model.User;
 
 import java.util.List;
 
-public interface UserDao {
-    boolean createUser(User user);
+public interface UserService {
+
+    void addUser(User user);
 
     void updateUser(User user);
 
@@ -13,12 +14,10 @@ public interface UserDao {
 
     void deleteUser(long id);
 
-    void deleteAll();
+    void deleteAllUsers();
 
     User getUser(long id);
 
     List<User> getAllUsers();
-
-
 
 }

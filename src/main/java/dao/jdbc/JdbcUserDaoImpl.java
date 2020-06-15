@@ -27,18 +27,18 @@ public class JdbcUserDaoImpl implements UserDao {
 
     }
 
-    @SneakyThrows
     @Override
-    public void createUser(User user) {
+    public boolean createUser(User user) {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("INSERT into users (role, email, password) value (?, ?, ?)")) {
             preparedStatement.setString(1, user.getRole());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
             preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             log.warn(e.getMessage());
-            throw e;
+            return false;
         }
     }
 
@@ -50,7 +50,7 @@ public class JdbcUserDaoImpl implements UserDao {
             preparedStatement.setString(1, user.getRole());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setLong(3, user.getId());
+            preparedStatement.setLong(4, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             log.warn(e.getMessage());
@@ -79,6 +79,15 @@ public class JdbcUserDaoImpl implements UserDao {
         } catch (SQLException e) {
             log.warn(e.getMessage());
             throw e;
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("Delete from users")) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            log.warn(e.getMessage());
         }
     }
 
