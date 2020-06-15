@@ -23,6 +23,13 @@ public class User {
 
     private String password;
 
+    public User(Long id, String role, String email, String password) {
+        this.id = id;
+        this.role = role;
+        this.email = email;
+        this.password = password;
+    }
+
     public User(String role, String email, String password) {
         this.role = role;
         this.email = email;

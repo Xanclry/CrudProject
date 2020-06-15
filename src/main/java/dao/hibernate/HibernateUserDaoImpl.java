@@ -36,6 +36,23 @@ public class HibernateUserDaoImpl implements UserDao {
     }
 
     @Override
+    public void deleteUser(String email) {
+        Session session = DBHelper.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            Query query = session.createQuery("delete from User where email= :email");
+            query.setParameter("email", email);
+            query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public void deleteUser(long id) {
         Session session = DBHelper.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
