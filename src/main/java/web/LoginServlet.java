@@ -18,14 +18,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String role = (String) req.getAttribute("role");
-        System.out.println(role);
         if (!"Unknown".equals(role)) {
             if (role.equalsIgnoreCase("user")) {
-//                req.getRequestDispatcher("/user").forward(req, resp);
                 resp.sendRedirect("/CrudProject_war/user");
             }
             if (role.equalsIgnoreCase("admin")) {
-//                req.getRequestDispatcher("/admin").forward(req, resp);
                 resp.sendRedirect("/CrudProject_war/admin");
 
             }
