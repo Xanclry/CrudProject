@@ -78,6 +78,7 @@ public class DBHelper {
         return daotype;
     }
 
+
     @SuppressWarnings("UnusedDeclaration")
     private static Configuration getMySqlConfiguration() {
         Configuration configuration = new Configuration();
