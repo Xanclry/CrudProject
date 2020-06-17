@@ -1,7 +1,6 @@
 package service;
 
-import dao.UserDao;
-import dao.UserDaoFactory;
+import dao.jdbc.JdbcUserDao;
 import model.User;
 
 import java.util.List;
@@ -10,10 +9,10 @@ public class UserServiceImpl implements UserService {
 
     private static UserServiceImpl instance;
 
-    private UserDao userDao;
+    private JdbcUserDao userDao;
 
     private UserServiceImpl() {
-        userDao = UserDaoFactory.getUserDao();
+        userDao = new JdbcUserDao();
     }
 
     public static UserServiceImpl getInstance() {
