@@ -7,20 +7,15 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 @Slf4j
 public class DBHelper {
 
     private static SessionFactory sessionFactory;
-
-    public static final String PROPERTIES_FILE_NAME = "app.properties";
 
     private DBHelper() {
     }
@@ -60,23 +55,6 @@ public class DBHelper {
         }
     }
 
-
-    public static String getDaoImpl() {
-        String daotype = "";
-        try (InputStream inputStream = DBHelper.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME)) {
-            Properties prop = new Properties();
-            if (inputStream != null) {
-                prop.load(inputStream);
-            } else {
-                throw new FileNotFoundException("property file '" + PROPERTIES_FILE_NAME + "' not found in the classpath");
-            }
-            daotype = prop.getProperty("daotype");
-
-        } catch (Exception e) {
-            log.warn(e.getMessage());
-        }
-        return daotype;
-    }
 
     @SuppressWarnings("UnusedDeclaration")
     private static Configuration getMySqlConfiguration() {

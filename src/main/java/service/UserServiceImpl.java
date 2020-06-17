@@ -1,7 +1,7 @@
 package service;
 
 import dao.UserDao;
-import dao.UserDaoFactory;
+import dao.hibernate.HibernateUserDaoImpl;
 import model.User;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     private UserServiceImpl() {
-        userDao = UserDaoFactory.getUserDao();
+        userDao = new HibernateUserDaoImpl();
     }
 
     public static UserServiceImpl getInstance() {
