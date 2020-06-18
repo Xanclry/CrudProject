@@ -11,24 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/edit/update")
-public class EditUpdateServlet extends HttpServlet {
+@WebServlet("/edit/create")
+public class EditCreateServlet extends HttpServlet {
 
     private UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("../update.jsp").forward(req, resp);
+        req.setAttribute("users", userService.getAllUsers());
+        resp.sendRedirect("/edit");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String role = req.getParameter("role");
-        Long id = Long.valueOf(req.getParameter("updateid"));
-        userService.updateUser(new User(id, email, password));
+        userService.addUser(new User(email, password));
         resp.sendRedirect("/edit");
     }
 }

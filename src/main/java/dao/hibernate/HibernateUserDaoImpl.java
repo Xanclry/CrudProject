@@ -17,8 +17,9 @@ public class HibernateUserDaoImpl implements UserDao {
     @Override
     public boolean createUser(User user) {
         Session session = DBHelper.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = session.getTransaction();
         try {
+            transaction.begin();
             session.save(user);
             transaction.commit();
             log.debug("Saved: " + user.getEmail());
@@ -35,8 +36,9 @@ public class HibernateUserDaoImpl implements UserDao {
     @Override
     public void updateUser(User user) {
         Session session = DBHelper.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = session.getTransaction();
         try {
+            transaction.begin();
             session.update(user);
             transaction.commit();
             log.debug("Saved: " + user.getEmail());
@@ -51,8 +53,9 @@ public class HibernateUserDaoImpl implements UserDao {
     @Override
     public void deleteUser(String email) {
         Session session = DBHelper.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = session.getTransaction();
         try {
+            transaction.begin();
             Query query = session.createQuery("delete from User where email= :email");
             query.setParameter("email", email);
             query.executeUpdate();
@@ -68,8 +71,9 @@ public class HibernateUserDaoImpl implements UserDao {
     @Override
     public void deleteUser(long id) {
         Session session = DBHelper.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = session.getTransaction();
         try {
+            transaction.begin();
             User user = (User) session.load(User.class, id);
             session.delete(user);
             transaction.commit();
@@ -84,8 +88,9 @@ public class HibernateUserDaoImpl implements UserDao {
     @Override
     public void deleteAll() {
         Session session = DBHelper.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = session.getTransaction();
         try {
+            transaction.begin();
             Query query = session.createQuery("delete from User");
             query.executeUpdate();
             transaction.commit();

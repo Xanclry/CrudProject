@@ -32,8 +32,7 @@
                     <c:out value="${user.password}"/>
                 </td>
                 <td>
-                    <form action="<c:url value="/edit"/>" method="post">
-                        <input type="hidden" name="action" value="delete">
+                    <form action="<c:url value="/edit/delete"/>" method="post">
                         <input type="hidden" name="id" value="<c:out value="${user.id}"/>">
                         <button type="submit">Delete</button>
                     </form>
@@ -52,8 +51,7 @@
     <h2>
         User Creation
     </h2>
-    <form method="post" action="<c:url value="/edit"/>">
-        <input type="hidden" name="action" value="create">
+    <form method="post" action="<c:url value="/edit/create"/>">
         <input type="text" name="email" placeholder="User's email">
         <input type="text" name="password" placeholder="User's password">
         <button type="submit">Submit</button>

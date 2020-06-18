@@ -2,10 +2,12 @@ package service;
 
 import dao.UserDao;
 import dao.hibernate.HibernateUserDaoImpl;
+import lombok.extern.slf4j.Slf4j;
 import model.User;
 
 import java.util.List;
 
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private static UserServiceImpl instance;
@@ -26,27 +28,47 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
-        userDao.createUser(user);
+        try {
+            userDao.createUser(user);
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
     }
 
     @Override
     public void updateUser(User user) {
-        userDao.updateUser(user);
+        try {
+            userDao.updateUser(user);
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
     }
 
     @Override
     public void deleteUser(String email) {
-        userDao.deleteUser(email);
+        try {
+            userDao.deleteUser(email);
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
     }
 
     @Override
     public void deleteUser(long id) {
-        userDao.deleteUser(id);
+        try {
+            userDao.deleteUser(id);
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
     }
 
     @Override
     public void deleteAllUsers() {
-        userDao.deleteAll();
+        try {
+            userDao.deleteAll();
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
     }
 
     @Override
