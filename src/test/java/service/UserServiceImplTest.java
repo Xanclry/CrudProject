@@ -14,10 +14,10 @@ public class UserServiceImplTest {
     private static UserService userService = UserServiceImpl.getInstance();
 
     private static List<User> users = List.of(
-        new User( "user", "John", "12345"),
-        new User( "user", "Mary", "qwerty"),
-        new User( "user", "Jack", "88888"),
-        new User( "user", "Joe", "98735321")
+            new User("John", "12345"),
+            new User("Mary", "qwerty"),
+            new User("Jack", "88888"),
+            new User("Joe", "98735321")
     );
 
     @Before
@@ -45,7 +45,6 @@ public class UserServiceImplTest {
         userService.addUser(firstUser);
         firstUser.setEmail("test123");
         firstUser.setPassword("test123");
-        firstUser.setRole("test123");
 
         User secondUser = userService.getAllUsers().get(0);
         firstUser.setId(secondUser.getId());
