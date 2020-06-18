@@ -1,4 +1,4 @@
-package web.filter;
+package servlet.filter;
 
 import model.User;
 import service.UserService;
@@ -26,7 +26,6 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest req = (HttpServletRequest) servletRequest;
 
-//        System.out.println("getRequestURI() - " + req.getRequestURI());
         String role = getRole(req);
         req.setAttribute("role", role);
         if (req.getRequestURI().contains("admin") && !role.equalsIgnoreCase("admin")) {

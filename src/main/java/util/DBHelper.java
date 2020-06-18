@@ -7,20 +7,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 @Slf4j
 public class DBHelper {
 
     private static SessionFactory sessionFactory;
 
-    public static final String PROPERTIES_FILE_NAME = "app.properties";
 
     private DBHelper() {
     }
@@ -43,13 +39,13 @@ public class DBHelper {
 
             StringBuilder url = new StringBuilder();
             url.
-                    append("jdbc:mysql://").        //db type
-                    append("localhost:").           //host name
-                    append("3306/").                //port
-                    append("crudproject?").                //db name
-                    append("user=root&").          //login
-                    append("password=root&").       //password
-                    append("serverTimezone=UTC");       //password
+                    append(PropertyReader.getProperty("connection.url")).
+                    append("?user=").
+                    append(PropertyReader.getProperty("connection.username")).
+                    append("&password=").
+                    append(PropertyReader.getProperty("connection.password")).
+                    append("&serverTimezone=UTC");
+
 
             log.info("URL: " + url + "\n");
 
@@ -61,35 +57,18 @@ public class DBHelper {
     }
 
 
-    public static String getDaoImpl() {
-        String daotype = "";
-        try (InputStream inputStream = DBHelper.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME)) {
-            Properties prop = new Properties();
-            if (inputStream != null) {
-                prop.load(inputStream);
-            } else {
-                throw new FileNotFoundException("property file '" + PROPERTIES_FILE_NAME + "' not found in the classpath");
-            }
-            daotype = prop.getProperty("daotype");
-
-        } catch (Exception e) {
-            log.warn(e.getMessage());
-        }
-        return daotype;
-    }
-
     @SuppressWarnings("UnusedDeclaration")
     private static Configuration getMySqlConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(User.class);
 
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/crudproject");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "root");
-        configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "validate");
+        configuration.setProperty("hibernate.dialect", PropertyReader.getProperty("hibernate.dialect"));
+        configuration.setProperty("hibernate.connection.driver_class", PropertyReader.getProperty("hibernate.connection.driver_class"));
+        configuration.setProperty("hibernate.connection.url", PropertyReader.getProperty("connection.url"));
+        configuration.setProperty("hibernate.connection.username", PropertyReader.getProperty("connection.username"));
+        configuration.setProperty("hibernate.connection.password", PropertyReader.getProperty("connection.password"));
+        configuration.setProperty("hibernate.show_sql", PropertyReader.getProperty("hibernate.show_sql"));
+        configuration.setProperty("hibernate.hbm2ddl.auto", PropertyReader.getProperty("hibernate.hbm2ddl.auto"));
         return configuration;
     }
 

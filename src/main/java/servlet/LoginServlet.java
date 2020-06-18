@@ -1,4 +1,4 @@
-package web;
+package servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +20,10 @@ public class LoginServlet extends HttpServlet {
         String role = (String) req.getAttribute("role");
         if (!"Unknown".equals(role)) {
             if (role.equalsIgnoreCase("user")) {
-                resp.sendRedirect("/CrudProject_war/user");
+                resp.sendRedirect("/user");
             }
             if (role.equalsIgnoreCase("admin")) {
-                resp.sendRedirect("/CrudProject_war/admin");
+                resp.sendRedirect("/admin");
 
             }
         } else {
