@@ -3,7 +3,7 @@ package dao;
 import dao.hibernate.HibernateUserDaoImpl;
 import dao.jdbc.JdbcUserDaoImpl;
 import lombok.extern.slf4j.Slf4j;
-import util.DBHelper;
+import util.PropertyReader;
 
 @Slf4j
 public class UserDaoFactory {
@@ -12,7 +12,7 @@ public class UserDaoFactory {
     }
 
     public static UserDao getUserDao() {
-        String daoImpl = DBHelper.getDaoImpl();
+        String daoImpl = PropertyReader.getProperty("daotype");
         UserDao dao;
         switch (daoImpl) {
             case "jdbc": {
