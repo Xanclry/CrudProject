@@ -10,9 +10,6 @@ import java.sql.SQLException;
 @Slf4j
 public class DBHelper {
 
-
-    public static final String PROPERTIES_FILE_NAME = "app.properties";
-
     private DBHelper() {
     }
 
